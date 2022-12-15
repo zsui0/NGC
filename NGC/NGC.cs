@@ -33,7 +33,7 @@ namespace NGC
             {
                 szin = "blue";
                 fajta = "atlagos";
-                jokedv = r.Next(0, 101);
+                jokedv = r.Next(1, 101);
             }
             else if (faj == "optimista")
             {
@@ -45,16 +45,16 @@ namespace NGC
             {
                 szin = "red";
                 fajta = "pesszimista";
-                jokedv = r.Next(0, 21);
+                jokedv = r.Next(1, 21);
             }
             else {
                 szin = "grey";
                 fajta = "semmi";
-                jokedv = r.Next(0, 101);
+                jokedv = r.Next(1, 101);
             }
 
-            ballPosX = r.Next(200, 500);
-            ballPosY = r.Next(200, 400);
+            ballPosX = r.Next(100, 600);
+            ballPosY = r.Next(100, 600);
             moveSpeedX = r.Next(-6, 6);
             moveSpeedY = r.Next(-6, 6);
             if (moveSpeedX == 0 && moveSpeedY == 0)
@@ -95,17 +95,38 @@ namespace NGC
             {
                 if (distance <= Convert.ToDouble((ballWidth / 2) + (n.GetBallWidth() / 2)))
                 {
+                    if (fajta == "optimista" && n.GetFaj() == "optimista" || n.GetFaj() == "atlagos" || n.GetFaj() == "pesszimista")
+                    {
+                        n.SetJokedv(jokedv);
+                    }
+                    else if (fajta == "atlagos" && n.GetFaj() == "optimista" || n.GetFaj() == "atlagos" || n.GetFaj() == "pesszimista")
+                    {
+                        n.SetJokedv((jokedv + n.GetJokedv()) / 2);
+                    }
+                    else if (fajta == "pesszimista" && n.GetFaj() == "optmista")
+                    {
+                        n.SetJokedv(jokedv / 2);
+                    }
+                    else if (fajta == "pesszimista" && n.GetFaj() == "atlagos" || n.GetFaj() == "pesszimista")
+                    {
+                        n.SetJokedv(jokedv);
+                    }
+
+
                     recentlyCollidedList.Add(n);
-                    jokedv++;
                     moveSpeedY = -moveSpeedY;
                     moveSpeedX = -moveSpeedX;
 
-                    n.IncreaseJokedv();
                     n.SetSpeedX(-n.GetSpeedX());
                     n.SetSpeedY(-n.GetSpeedY());
                 }
             }
 
+        }
+
+        public void SetJokedv(double _jokedv)
+        {
+            jokedv = _jokedv;
         }
 
         public int CountRecently()

@@ -13,6 +13,8 @@ namespace NGC
 {
     public partial class Form1 : Form
     {
+        // Ha scalelve van a visual studio, akkor a méret beállítások miatt rossz lehet!
+
         List<NGC> NgcLakok = new List<NGC>();
 
         public Form1()
@@ -26,13 +28,15 @@ namespace NGC
         {
             string[] fajok = new string[3] { "atlagos", "optimista", "pesszimista" };
             Random rand = new Random();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 100; i++)
             {
                 //Thread.Sleep(500);
                 int index = rand.Next(fajok.Length);
                 NgcLakok.Add(new NGC(NgcLakok.Count,fajok[index],ref rand)); // %-os arányuk még nincs a feladat alapján
             }
-            label2.Text = NgcLakok.Count.ToString();
+            label1.Text = "Átlagos: Kék";
+            label2.Text = "Optimista: Zöld";
+            label3.Text = "Pesszimista: Piros";
 
         }
 
@@ -61,7 +65,7 @@ namespace NGC
                 else
                     e.Graphics.FillEllipse(Brushes.Gray, Convert.ToInt32(circle.GetPosX()), Convert.ToInt32(circle.GetPosY()), Convert.ToInt32(circle.GetBallWidth()), Convert.ToInt32(circle.GetBallHeight()));
 
-                e.Graphics.DrawString(Convert.ToString(circle.GetJokedv()),new Font("Jokedv",10,FontStyle.Regular) ,Brushes.White, Convert.ToInt32(circle.GetPosX()+(circle.GetBallWidth()/2)), Convert.ToInt32(circle.GetPosY()+(circle.GetBallHeight()/2)));
+                e.Graphics.DrawString(Convert.ToString(Math.Round(circle.GetJokedv(),2)),new Font("Jokedv",10,FontStyle.Regular) ,Brushes.White, Convert.ToInt32(circle.GetPosX()+(circle.GetBallWidth()/2)-15), Convert.ToInt32(circle.GetPosY()+(circle.GetBallHeight()/2)-7));
                 e.Graphics.DrawEllipse(Pens.Black, Convert.ToInt32(circle.GetPosX()), Convert.ToInt32(circle.GetPosY()), Convert.ToInt32(circle.GetBallWidth()), Convert.ToInt32(circle.GetBallHeight()));
             }
         }
