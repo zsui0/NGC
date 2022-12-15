@@ -30,7 +30,7 @@ namespace NGC
             {
                 //Thread.Sleep(500);
                 int index = rand.Next(fajok.Length);
-                NgcLakok.Add(new NGC(fajok[index],ref rand)); // %-os arányuk még nincs a feladat alapján
+                NgcLakok.Add(new NGC(NgcLakok.Count,fajok[index],ref rand)); // %-os arányuk még nincs a feladat alapján
             }
             label2.Text = NgcLakok.Count.ToString();
 
@@ -53,16 +53,16 @@ namespace NGC
             foreach (NGC circle in NgcLakok)
             {
                 if (circle.GetSzin() == "blue")
-                    e.Graphics.FillEllipse(Brushes.Blue, circle.GetPosX(), circle.GetPosY(), circle.GetBallWidth(), circle.GetBallHeight());
+                    e.Graphics.FillEllipse(Brushes.Blue, Convert.ToInt32(circle.GetPosX()), Convert.ToInt32(circle.GetPosY()), Convert.ToInt32(circle.GetBallWidth()), Convert.ToInt32(circle.GetBallHeight()));
                 else if (circle.GetSzin() == "green")
-                    e.Graphics.FillEllipse(Brushes.Green, circle.GetPosX(), circle.GetPosY(), circle.GetBallWidth(), circle.GetBallHeight());
+                    e.Graphics.FillEllipse(Brushes.Green, Convert.ToInt32(circle.GetPosX()), Convert.ToInt32(circle.GetPosY()), Convert.ToInt32(circle.GetBallWidth()), Convert.ToInt32(circle.GetBallHeight()));
                 else if (circle.GetSzin() == "red")
-                    e.Graphics.FillEllipse(Brushes.Red, circle.GetPosX(), circle.GetPosY(), circle.GetBallWidth(), circle.GetBallHeight());
+                    e.Graphics.FillEllipse(Brushes.Red, Convert.ToInt32(circle.GetPosX()), Convert.ToInt32(circle.GetPosY()), Convert.ToInt32(circle.GetBallWidth()), Convert.ToInt32(circle.GetBallHeight()));
                 else
-                    e.Graphics.FillEllipse(Brushes.Gray, circle.GetPosX(), circle.GetPosY(), circle.GetBallWidth(), circle.GetBallHeight());
+                    e.Graphics.FillEllipse(Brushes.Gray, Convert.ToInt32(circle.GetPosX()), Convert.ToInt32(circle.GetPosY()), Convert.ToInt32(circle.GetBallWidth()), Convert.ToInt32(circle.GetBallHeight()));
 
-                e.Graphics.DrawString(Convert.ToString(circle.GetJokedv()),new Font("Jokedv",10,FontStyle.Regular) ,Brushes.White,circle.GetPosX()+(circle.GetBallWidth()/2),circle.GetPosY()+(circle.GetBallHeight()/2));
-                e.Graphics.DrawEllipse(Pens.Black, circle.GetPosX(), circle.GetPosY(), circle.GetBallWidth(), circle.GetBallHeight());
+                e.Graphics.DrawString(Convert.ToString(circle.GetJokedv()),new Font("Jokedv",10,FontStyle.Regular) ,Brushes.White, Convert.ToInt32(circle.GetPosX()+(circle.GetBallWidth()/2)), Convert.ToInt32(circle.GetPosY()+(circle.GetBallHeight()/2)));
+                e.Graphics.DrawEllipse(Pens.Black, Convert.ToInt32(circle.GetPosX()), Convert.ToInt32(circle.GetPosY()), Convert.ToInt32(circle.GetBallWidth()), Convert.ToInt32(circle.GetBallHeight()));
             }
         }
 
@@ -99,12 +99,17 @@ namespace NGC
             //update paintings
             Refresh();
         }
-        private void BallCollision(object sender, EventArgs e)
+
+        private void PopFirstNgc(object sender, EventArgs e)
         {
-
-
+            foreach (NGC item in NgcLakok)
+            {
+                if (item.CountRecently() > 0)
+                {
+                    item.PopFirstRecently();
+                }
+            }
         }
-
     }
 
 }

@@ -12,19 +12,22 @@ namespace NGC
 {
     internal class NGC
     {
+        int id;
         string fajta;
         string szin;
-        int jokedv;
+        double jokedv;
 
-        int ballWidth = 50;
-        int ballHeight = 50;
-        int ballPosX = 0;
-        int ballPosY = 0;
-        int moveSpeedX = 4;
-        int moveSpeedY = 4;
+        double ballWidth = 50;
+        double ballHeight = 50;
+        double ballPosX = 0;
+        double ballPosY = 0;
+        double moveSpeedX = 4;
+        double moveSpeedY = 4;
 
 
-        public NGC(string faj,ref Random r)
+        List<NGC> recentlyCollidedList;
+
+        public NGC(int index,string faj,ref Random r)
         {
             if (faj == "atlagos")
             {
@@ -59,7 +62,8 @@ namespace NGC
                 moveSpeedX = r.Next(1, 6);
                 moveSpeedY = r.Next(1, 6);
             }
-
+            id = index;
+            recentlyCollidedList = new List<NGC>();
         }
 
         public void Collided(NGC n)
@@ -74,17 +78,44 @@ namespace NGC
 
             double distance = Math.Sqrt(Math.Pow(Math.Abs(Y1-Y2),2)+Math.Pow(Math.Abs(X1-X2),2));
 
-            if (distance <= Convert.ToDouble((ballWidth/2) + (n.GetBallWidth()/2)))
-            {
-                jokedv++;
-                moveSpeedX = -moveSpeedX;
-                moveSpeedY = -moveSpeedY;
+            
 
-                n.IncreaseJokedv();
-                n.SetSpeedX(-n.GetSpeedX());
-                n.SetSpeedY(-n.GetSpeedY());  
+
+            bool van = false;
+            if (recentlyCollidedList.Count > 0)
+            { 
+                    foreach (NGC item in recentlyCollidedList)
+                    {
+                        if (n == item)
+                            van = true;
+                    }
             }
 
+            if (!van)
+            {
+                if (distance <= Convert.ToDouble((ballWidth / 2) + (n.GetBallWidth() / 2)))
+                {
+                    recentlyCollidedList.Add(n);
+                    jokedv++;
+                    moveSpeedY = -moveSpeedY;
+                    moveSpeedX = -moveSpeedX;
+
+                    n.IncreaseJokedv();
+                    n.SetSpeedX(-n.GetSpeedX());
+                    n.SetSpeedY(-n.GetSpeedY());
+                }
+            }
+
+        }
+
+        public int CountRecently()
+        {
+            return recentlyCollidedList.Count;
+        }
+
+        public void PopFirstRecently()
+        {
+            recentlyCollidedList.RemoveAt(0);
         }
 
         public void IncreaseJokedv()
@@ -92,12 +123,12 @@ namespace NGC
             jokedv++;
         }
 
-        public int GetJokedv()
+        public double GetJokedv()
         {
             return jokedv;
         }
 
-        public int Radius()
+        public double Radius()
         {
             return ballWidth / 2;
         }
@@ -112,45 +143,45 @@ namespace NGC
             return szin;
         }
 
-        public void SetSpeedX(int x)
+        public void SetSpeedX(double x)
         {
             moveSpeedX = x;
         }
-        public void SetSpeedY(int y)
+        public void SetSpeedY(double y)
         {
             moveSpeedY = y;
         }
 
-        public void AddPosX(int x)
+        public void AddPosX(double x)
         {
             ballPosX += x; 
         }
-        public void AddPosY(int y)
+        public void AddPosY(double y)
         {
             ballPosY += y;
         }
 
-        public int GetBallWidth()
+        public double GetBallWidth()
         {
             return ballWidth;
         }
-        public int GetBallHeight()
+        public double GetBallHeight()
         {
             return ballHeight;
         }
-        public int GetPosX()
+        public double GetPosX()
         {
             return ballPosX;
         }
-        public int GetPosY()
+        public double GetPosY()
         {
             return ballPosY;
         }
-        public int GetSpeedX()
+        public double GetSpeedX()
         {
             return moveSpeedX;
         }
-        public int GetSpeedY()
+        public double GetSpeedY()
         {
             return moveSpeedY;
         }

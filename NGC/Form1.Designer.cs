@@ -31,8 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.label2 = new System.Windows.Forms.Label();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // timer1
@@ -51,11 +51,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "label1";
             // 
-            // timer2
-            // 
-            this.timer2.Interval = 33;
-            this.timer2.Tick += new System.EventHandler(this.BallCollision);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -65,6 +60,12 @@
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "label2";
+            // 
+            // timer2
+            // 
+            this.timer2.Enabled = true;
+            this.timer2.Interval = 5000;
+            this.timer2.Tick += new System.EventHandler(this.PopFirstNgc);
             // 
             // Form1
             // 
@@ -88,8 +89,8 @@
 
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 
