@@ -53,7 +53,7 @@ namespace NGC
                 jokedv = r.Next(1, 101);
             }
 
-            ballPosX = r.Next(100, 600);
+            ballPosX = r.Next(100, 1000);
             ballPosY = r.Next(100, 600);
             moveSpeedX = r.Next(-6, 6);
             moveSpeedY = r.Next(-6, 6);
