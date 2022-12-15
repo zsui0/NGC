@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using System.Reflection;
 
 namespace NGC
 {
@@ -16,6 +17,7 @@ namespace NGC
         // Ha scalelve van a visual studio, akkor a méret beállítások miatt rossz lehet!
 
         List<NGC> NgcLakok = new List<NGC>();
+        int maxLakossag = 150;
 
         public Form1()
         {
@@ -27,16 +29,26 @@ namespace NGC
         private void Form1_Load(object sender, EventArgs e)
         {
             string[] fajok = new string[3] { "atlagos", "optimista", "pesszimista" };
+            double atlagos = maxLakossag * 0.67;
+            double optimista = maxLakossag * 0.2;
+            double pesszimista = maxLakossag - (atlagos + optimista);
             Random rand = new Random();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < atlagos; i++)
             {
-                //Thread.Sleep(500);
-                int index = rand.Next(fajok.Length);
-                NgcLakok.Add(new NGC(NgcLakok.Count,fajok[index],ref rand)); // %-os arányuk még nincs a feladat alapján
+                NgcLakok.Add(new NGC(NgcLakok.Count, "atlagos", ref rand));
+            }
+            for (int i = 0; i < optimista; i++)
+            {
+                NgcLakok.Add(new NGC(NgcLakok.Count, "optimista", ref rand));
+            }
+            for (int i = 0; i < pesszimista; i++)
+            {
+                NgcLakok.Add(new NGC(NgcLakok.Count, "pesszimista", ref rand));
             }
             label1.Text = "Átlagos: Kék";
             label2.Text = "Optimista: Zöld";
             label3.Text = "Pesszimista: Piros";
+            label4.Text = Convert.ToString(NgcLakok.Count);
 
         }
 
